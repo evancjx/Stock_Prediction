@@ -1,5 +1,9 @@
 
+from .helper import datetime_convert_timezone, datetime_string_to_datetime 
 from .text_preprocessing import clean_tweet, text_sentiment
+
+tweet_created_at_format = '%a %b %d %H:%M:%S %z %Y'
+to_tz = 'Asia/Singapore'
 
 def organize_tweet(tweet_json):
     text = tweet_json.get('text')
@@ -14,7 +18,11 @@ def organize_tweet(tweet_json):
 
     return {
         'id': tweet_json.get('id_str'),
-        'created_at': tweet_json.get('created_at'),
+        'created_at': datetime_convert_timezone(
+            datetime_string_to_datetime(
+                tweet_json.get('created_at'), tweet_created_at_format
+            ), to_tz
+        ),
         'source': tweet_json.get('source'),
         'original_text': text,
         'clean_text': text_cleaned,

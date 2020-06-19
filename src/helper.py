@@ -1,5 +1,6 @@
 
 from datetime import date, datetime, timedelta
+from dateutil import tz
 from os.path import isdir
 from os import mkdir
 import pickle
@@ -56,6 +57,9 @@ def datetime_change_format(source, input_format, output_format):
             datetime_to_datetime_string(source, output_format),
             output_format
         )
+
+def datetime_convert_timezone(date_time, tz_str='Asia/Singapore'):
+    return date_time.astimezone(tz.gettz(tz_str))
 
 def pickle_dump(file_path, obj):
     dest_folder = file_path.rsplit('/',1)[0]
